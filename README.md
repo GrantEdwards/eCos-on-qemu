@@ -362,9 +362,11 @@ will
  * After QEMU exits, shut down the tun/tap network interface and clean
    up any temporary files.
 
-NOTE: After QEMU exits, the CD image is deleted.  If you want to keep
-it, you can comment out the `rm -rf $Iso` command at the end of
-runit.sh.
+
+> [!NOTE]
+> After QEMU exits, the CD image is deleted.  If you want to keep
+> it, you can comment out the `rm -rf $Iso` command at the end of
+> runit.sh.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 $ runit.sh build-redboot/install/bin/redboot.elf 
@@ -376,10 +378,10 @@ QEMU 0.11.1 monitor - type 'help' for more information
 In the aterm window that pops up titled "`eCos Serial 0`" you'll
 initially see a Grub menu screen:
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~----------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
    GNU GRUB  version 0.97  (636K lower / 129984K upper memory)
 
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~---+
++-------------------------------------------------------------------------+
 | /redboot.elf                                                            |  
 |                                                                         |
 |                                                                         |
@@ -392,20 +394,20 @@ initially see a Grub menu screen:
 |                                                                         |
 |                                                                         |
 |                                                                         |  
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~---+
++-------------------------------------------------------------------------+
      Use the ^ and v keys to select which entry is highlighted.
      Press enter to boot the selected OS, 'e' to edit the
      commands before booting, or 'c' for a command-line.
 
 
   The highlighted entry will be booted automatically in 2 seconds.    
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~----------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
    
 After two seconds, the eCos application will be booted by Grub:   
 
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~----------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   Booting '/redboot.elf'
 
 kernel /redboot.elf
@@ -429,7 +431,7 @@ Redboot comes with ABSOLUTELY NO WARRANTY.
 Platform: PC (I386) 
 RAM: 0x00100000-0x040ffc00 [0x0018fff0-0x01000000 available]
 RedBoot> 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~----------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 At this point you can enter RedBoot commands at the above prompt.
 
@@ -443,7 +445,7 @@ If tun/tap networking is working correctly, you now have a virtual
 network interface that connects you to the QEMU virtual machine which
 is now running RedBoot:
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~----------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 $ ifconfig -a
 
 [...]
@@ -455,13 +457,13 @@ tap0      Link encap:Ethernet  HWaddr da:c7:0b:eb:27:7f
           TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
           collisions:0 txqueuelen:500 
           RX bytes:480 (480.0 B)  TX bytes:0 (0.0 B)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~----------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
    
 In the buildredboot.sh script, RedBoot was configured to have an IP
 address of 172.16.0.2, so you can ping RedBoot or telnet to it (at
 port 9000):
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~----------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 $ ping 172.16.0.2
 PING 172.16.0.2 (172.16.0.2) 56(84) bytes of data.
 64 bytes from 172.16.0.2: icmp_req=1 ttl=64 time=32.6 ms
@@ -478,11 +480,10 @@ Trying 172.16.0.2...
 Connected to 172.16.0.2.
 Escape character is '^]'.
 RedBoot> 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~----------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
    
 
-Building eCos
--------------
+## Building eCos
 
 The buildecos.sh script builds the eCos kernel/libraries that can then
 be used to build multi-threaded applications.  The same environment
