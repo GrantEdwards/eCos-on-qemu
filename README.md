@@ -363,10 +363,10 @@ will
    up any temporary files.
 
 
-> [!NOTE]
-> After QEMU exits, the CD image is deleted.  If you want to keep
-> it, you can comment out the `rm -rf $Iso` command at the end of
-> runit.sh.
+**NOTE:**
+After QEMU exits, the CD image is deleted.  If you want to keep
+it, you can comment out the `rm -rf $Iso` command at the end of
+runit.sh.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 $ runit.sh build-redboot/install/bin/redboot.elf 
