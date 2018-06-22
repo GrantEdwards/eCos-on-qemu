@@ -1299,6 +1299,5 @@ Waiting for connection on port 8003
 ## External Links
 
  * http://ecos.sourceware.org/
- * http://www.gnu.org/software/grub/
- * http://wiki.qemu.org/Main_Page
- * http://www.methods.co.nz/asciidoc/
+ * http://www.gnu.org/software/grub/grub-legacy.html
+ * http://wwww.qemu.org/
