@@ -3,8 +3,6 @@
 set -o nounset
 set -o errexit
 
-. ./setup.sh
-
 rm -rf build-ecos
 mkdir build-ecos
 cd build-ecos
