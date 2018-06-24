@@ -30,14 +30,14 @@ Bash shell script that runs a specified eCos application using
 QEMU.  It works by creating an ISO-9660 bootable CD image
 containing the Grub bootloader and the stripped ELF-format eCos
 application executable.  The eCos startup mode (CYG_HAL_STARTUP)
-must have been set to "GRUB".  If your Grub El Torito stage 2 file
-is not at /lib/grub/i386-pc/stage2_eltorito, you'll need to edit
-the script and change the value of the variable ElToritoStage2.
+must have been set to "GRUB".  
+
 This script requires mkisofs, qemu, sudo, a kernel capable of
-tun/tap networking, and the tun/tap networking management tool
-tunctl.  It also assumes the availability of the aterm terminal
-emulator and telnet client (which will be used to provide a
-terminal connected to the virtual machine's COM1 serial port).
+tun/tap networking, and the iproute2 networking management tool
+`ip`.  It also assumes the availability of the aterm terminal
+emulator and the standard command-line telnet client (which will
+be used to provide a terminal connected to the virtual machine's
+COM1 serial port).
 
 ### grub_stage2_eltorito
 
@@ -91,13 +91,15 @@ using the buildecos.sh script.
 
 Source for a simple multi-threaded network server application
 (server.elf) that waits for TCP/IP connections to ports 8000-8007
-and echos any data received on those connections.
+and echos any data received on those connections. To build this
+application you must first build an eCos kernel/library using the
+buildecos.sh script.
                
 ### Makefile
 
 Makefile that builds hello.elf and server.elf eCos applications.
 An eCos library must already have been built using buildecos.sh.
-Assumes the eCos build was done in ./build-ecos (the default
+It assumes the eCos build was done in ./build-ecos (the default
 destination in the buildecos.sh script).
 
 
@@ -1308,6 +1310,5 @@ Waiting for connection on port 8003
 ## External Links
 
  * http://ecos.sourceware.org/
- * http://www.gnu.org/software/grub/
- * http://wiki.qemu.org/Main_Page
- * http://www.methods.co.nz/asciidoc/
+ * http://www.gnu.org/software/grub/grub-legacy.html
+ * http://wwww.qemu.org/
