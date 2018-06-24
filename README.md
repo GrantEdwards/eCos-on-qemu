@@ -70,6 +70,17 @@ directory named build-ecos will be created, and the build will be
 done in that directory.  Again, the CDL options can be changed by
 editing the buildecos.sh script file.
 
+### setup.sh
+
+Example script file that sets the environment variables neede bu the
+build*.sh scripts and the Makefile.  If you want to use a script like
+this to set environment variables, remember that you need to "source"
+it from the command line rather than running it in a subshell:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+$ . ./setup.sh
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 ### hello.c
 
 Source for a simple "hello world" eCos application (hello.elf).  To
