@@ -24,6 +24,10 @@ cdl_option CYGNUM_FILEIO_NFD {user_value 64}
 cdl_option CYGNUM_FILEIO_NFILE {user_value 64}
 EOF
 
+if [ $# -ge 1 ] && [ "$1" = "vga" ]; then
+    echo 'cdl_option CYGNUM_HAL_VIRTUAL_VECTOR_CONSOLE_CHANNEL {user_value 2}' >>ecos.cdl
+fi
+
 ecosconfig new pc_rltk8139 net
 ecosconfig import ecos.cdl
 ecosconfig tree
