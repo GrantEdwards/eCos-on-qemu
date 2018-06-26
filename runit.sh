@@ -24,15 +24,27 @@
 set -o nounset
 set -o errexit
 
+do_vga=n
+if [ "$1" = "--vga" ]; then
+    do_vga=y
+    shift
+fi
+
 function StartQemu {
   # create a TAP interface belonging to the user
   User=$USER
   TAP=tap_qemu_$$
+  if [ $do_vga = y ]; then
+      QEMU_GRAPHICS=""
+  else
+      QEMU_GRAPHICS="-nographic"
+  fi
+  
   sudo ip tuntap add dev $TAP mode tap user $User
   sudo ifconfig $TAP 172.16.0.1/24 promisc up
   # start the emulator using the TAP interface we created above
-  qemu-system-i386 -net nic,model=rtl8139  -net tap,ifname=$TAP,script=no -nographic $*
-  #qemu-system-i386 -net nic,model=rtl8139 -net tap,ifname=$TAP,script=no $*
+  qemu-system-i386 -net nic,model=rtl8139  -net tap,ifname=$TAP,script=no $QEMU_GRAPHICS $*
+
   # remove the TAP interface
   sudo ip tuntap del dev $TAP mode tap
   }
@@ -62,9 +74,16 @@ mkdir -p $Tree/boot/grub
 cp grub_stage2_eltorito $Tree/boot/grub
 
 # create Grub configuration file that loads program
-cat >$Tree/boot/grub/menu.lst <<EOF
+GRUB_CONSOLE_CONFIG="\
 serial --unit=0 --speed=115200
-terminal --timeout=2 serial console
+terminal --timeout=2 serial console"
+
+if [ $do_vga = y ]; then
+    GRUB_CONSOLE_CONFIG=""
+fi
+
+cat >$Tree/boot/grub/menu.lst <<EOF
+$GRUB_CONSOLE_CONFIG
 default 0
 timeout 2
 title  /$Prog
@@ -88,12 +107,16 @@ rm -rf $Tree
 sudo -v -p "We need to run some things using sudo, so please enter your password.
 Password: "
 
-# start a terminal that will telnet to the virtual machine's serial port, but it
-# needs to wait until after qemu has started up.
-(sleep 0.5; aterm -title "eCos Serial 0" -name "eCos Serial 0" -e telnet localhost 9876)&
+# Unless we're running in "vga" mode start a terminal that will telnet
+# to the virtual machine's serial port, but it needs to wait until
+# after qemu has started up.
 
-# start the emulator
-StartQemu -boot d -cdrom $Iso -serial telnet:localhost:9876,server
+if [ $do_vga = n ]; then
+    (sleep 0.5; aterm -title "eCos Serial 0" -name "eCos Serial 0" -e telnet localhost 9876)&
+    StartQemu -boot d -cdrom $Iso -serial telnet:localhost:9876,server
+else
+    StartQemu -boot d -cdrom $Iso
+fi
 
 # clean up
 rm -rf $Iso
