@@ -31,20 +31,21 @@ if [ "$1" = "--vga" ]; then
 fi
 
 function StartQemu {
-  # create a TAP interface belonging to the user
   User=$USER
-  TAP=tap_qemu_$$
+  TAP=tap$$
+  
   if [ $do_vga = y ]; then
       QEMU_GRAPHICS=""
   else
       QEMU_GRAPHICS="-nographic"
   fi
   
+  set -x
+  # create a TAP interface belonging to the user  
   sudo ip tuntap add dev $TAP mode tap user $User
   sudo ifconfig $TAP 172.16.0.1/24 promisc up
   # start the emulator using the TAP interface we created above
-  qemu-system-i386 -net nic,model=rtl8139  -net tap,ifname=$TAP,script=no $QEMU_GRAPHICS $*
-
+  qemu-system-i386 -net nic,model=rtl8139 -net tap,id=net0,ifname=$TAP,script=no,downscript=no $QEMU_GRAPHICS $*
   # remove the TAP interface
   sudo ip tuntap del dev $TAP mode tap
   }
@@ -112,7 +113,7 @@ Password: "
 # after qemu has started up.
 
 if [ $do_vga = n ]; then
-    (sleep 0.5; aterm -title "eCos Serial 0" -name "eCos Serial 0" -e telnet localhost 9876)&
+    (sleep 0.2; aterm -title "eCos Serial 0" -name "eCos Serial 0" -e telnet localhost 9876)&
     StartQemu -boot d -cdrom $Iso -serial telnet:localhost:9876,server
 else
     StartQemu -boot d -cdrom $Iso
