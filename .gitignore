@@ -1,0 +1,10 @@
+/build-ecos
+/build-redboot
+/hello.elf
+/hello.elf.map
+/hello.o
+/server.elf
+/server.elf.map
+/server.o
+*~
+#*#
