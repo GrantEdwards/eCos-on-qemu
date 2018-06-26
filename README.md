@@ -32,12 +32,16 @@ containing the Grub bootloader and the stripped ELF-format eCos
 application executable.  The eCos startup mode (CYG_HAL_STARTUP)
 must have been set to "GRUB".  
 
-This script requires mkisofs, qemu, sudo, a kernel capable of
-tun/tap networking, and the iproute2 networking management tool
-`ip`.  It also assumes the availability of the aterm terminal
-emulator and the standard command-line telnet client (which will
-be used to provide a terminal connected to the virtual machine's
-COM1 serial port).
+This script requires mkisofs, qemu, sudo, a kernel capable of tun/tap
+networking, and the iproute2 networking management tool `ip`.  By
+default it also assumes the availability of the aterm terminal
+emulator and the standard command-line telnet client (which will be
+used to provide a terminal connected to the virtual machine's COM1
+serial port).
+
+If the "--vga" option is specified on the command line, then grub and
+qemu will be started with VGA/keyboard console support, and no virtual
+serial port will be configured.
 
 ### grub_stage2_eltorito
 
@@ -69,6 +73,11 @@ i386-elf-gcc toolchain must be present in the users PATH.  A
 directory named build-ecos will be created, and the build will be
 done in that directory.  Again, the CDL options can be changed by
 editing the buildecos.sh script file.
+
+If the "--vga" command line option is specified, then the eCos
+configuration will be modified so that the virtual machine's
+VGA/keyboard console channel will be used by default for diagnostic
+I/O (e.g. diag_printf() output).
 
 ### setup.sh
 
